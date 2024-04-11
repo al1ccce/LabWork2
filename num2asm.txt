@@ -1,0 +1,27 @@
+global _start
+section .data  
+
+    n dq 15
+    m dq 4
+ 
+section .text
+_start:
+    push rbp
+    mov  rbp, rsp
+    mov rbx, [n]
+    mov rax, [n]
+    mov rcx, 0
+    whil:
+        mov [rbp-8], ah
+        add rax, [rbp-8]
+        mov ah, 0
+        div byte [m]
+        add rbx, rax
+        add rcx, 2
+        cmp al, 0
+        jg whil
+        
+    sub rcx, 1
+    mov rdi, rbx 
+    mov rax, 60
+    syscall

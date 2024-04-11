@@ -1,0 +1,19 @@
+whatTimeIsIt :: Int -> Bool
+whatTimeIsIt number = let
+    hours = number `div` 100
+    minutes = number `mod` 100
+    in (hours >= 0 && hours <= 23) && (minutes >= 0 && minutes <= 59)
+
+yesOrNo :: [Int] -> Int -> IO ()
+yesOrNo numbers n = mapM_ checkTime numbers
+    where
+        checkTime number = if whatTimeIsIt number
+            then putStrLn "YES"
+            else putStrLn "NO"
+
+main :: IO ()
+main = do
+    putStrLn "n = "
+    n <- readLn
+    numbers <- sequence [readLn | _ <- [1..n]]
+    yesOrNo numbers n
