@@ -1,3 +1,5 @@
+#include <iostream>
+#include <string>
 using namespace std;
 // функция, которая возвращает конечную позицию фигуры
 pair<int, int> moves(string hodi, int n, int m, int nlocal, int mlocal) {
@@ -58,21 +60,17 @@ int main() {
         // идем по столбцам
         for (int j = 1; j <= m; j++) {
             pair<int, int> p = moves(hodi, i, j, n, m);
-            // если фигура не вышла за пределы доски - переход к метке exist
+            // если фигура не вышла за пределы доски - вывод + выход
             if ((p.first > 0 && p.first <= n) && (p.second > 0 && p.second <= m)) {
                 cout << i << " " << j << endl;
-                goto exist;
+                exit(1);
             }
-            // если неправильная команда - переход к метке doenstexist
+            // если неправильная команда - выход
             if (p.first == -123) {
-                goto doesntexist;
+                exit(-123);
             }
         }
     }
-    // метка doesntexist, выводит No
-doesntexist:
-    cout << "No" << endl;
-    // метка label, завершает выполнение программы
-exist:
+    cout << "NO" << endl;
     return 0;
 }
