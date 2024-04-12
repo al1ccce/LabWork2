@@ -1,7 +1,8 @@
 import Foundation
-func moves(hodi: String, n: Int, m: Int) -> (Int, Int) {
+func moves(hodi: String, n: Int, m: Int, nlocal: Int, mlocal: Int) -> (Int, Int) {
     var n = n
     var m = m
+    
     for hod in hodi {
         switch hod {
         case "L":
@@ -16,7 +17,12 @@ func moves(hodi: String, n: Int, m: Int) -> (Int, Int) {
             print("\(hod) is undefined")
             return (-123, 0)
         }
+        
+        if n <= 0 || n > nlocal || m <= 0 || m > mlocal {
+            return (0, 0)
+        }
     }
+    
     return (n, m)
 }
 
@@ -41,19 +47,22 @@ func main() {
     
     for i in 1...n {
         for j in 1...m {
-            let p = moves(hodi: hodi, n: i, m: j)
-            if (p.0 > 0 && p.0 <= n) && (p.1 > 0 && p.1 <= m) {
-                print("\(i) \(j)")
-                return
-            }
-            if p.0 == -123 {
-                print("No")
-                return
-            }
+            let p = moves(hodi: hodi, n: i, m: j, nlocal: n, mlocal: m)
+        
+        if (p.0 > 0 && p.0 <= n && p.1 > 0 && p.1 <= m) {
+            print(i, j)
+            exit(0)
+        }
+        
+        if p.0 == -123 {
+            print("No")
+            exit(0)
         }
     }
+}
     print("No")
 }
+
 
 
 main()
