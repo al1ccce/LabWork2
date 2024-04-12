@@ -1,4 +1,4 @@
-def moves(hodi, n, m)
+def moves(hodi, n, m, nlocal, mlocal)
   hodi.each_char do |hod|
     case hod
     when 'L'
@@ -11,30 +11,36 @@ def moves(hodi, n, m)
       n -= 1
     else
       puts "#{hod} is undefined"
-      return [-123, 0]
+      return -123, 0
+    end
+    
+    if n <= 0 || n > nlocal || m <= 0 || m > nlocal
+      return 0, 0
     end
   end
-  [n, m]
+  
+  return n, m
 end
-
-n = 0
-m = 0
 puts "n = "
 n = gets.chomp.to_i
 puts "m = "
 m = gets.chomp.to_i
-puts "moves = "
 hodi = gets.chomp
+
 (1..n).each do |i|
   (1..m).each do |j|
-    p = moves(hodi, i, j)
-    if p[0] > 0 && p[0] <= n && p[1] > 0 && p[1] <= m
+    nnew, mnew = moves(hodi, i, j, n, m)
+    
+    if (nnew > 0 && nnew <= n) && (mnew > 0 && mnew <= m)
       puts "#{i} #{j}"
-      abort
+      exit
     end
-    if p[0] == -123
-      abort "No"
+    
+    if nnew == -123
+      puts 'No'
+      exit
     end
   end
 end
-puts "No"
+
+puts 'No'
