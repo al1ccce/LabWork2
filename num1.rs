@@ -1,8 +1,10 @@
 use std::io;
 
-fn moves(hodi: &str, n: i32, m: i32) -> (i32, i32) {
+fn moves(hodi: &str, n: i32, m: i32, nlocal: i32, mlocal: i32) -> (i32, i32) {
     let mut n = n;
     let mut m = m;
+    let nlocal = nlocal;
+    let mlocal = mlocal;
     for hod in hodi.chars() {
         match hod {
             'L' => m -= 1,
@@ -13,6 +15,10 @@ fn moves(hodi: &str, n: i32, m: i32) -> (i32, i32) {
                 println!("{} is undefined", hod);
                 return (-123, 0);
             }
+            
+        }
+        if m <= 0 || m > mlocal || n <= 0 || n > nlocal {
+            return (-123, 0);
         }
     }
     (n, m)
@@ -35,16 +41,12 @@ fn main() {
 
     for i in 1..=n {
         for j in 1..=m {
-            let p = moves(hodi, i, j);
+            let p = moves(hodi, i, j, n, m);
             if (p.0 > 0 && p.0 <= n) && (p.1 > 0 && p.1 <= m) {
                 println!("{} {}", i, j);
-                std::process::exit(0)
+                std::process::exit(0);
             }
-            if p.0 == -123 {
-                println!("No");
-                std::process::exit(0)
             }
         }
-    }
     println!("No");
-}
+    }
