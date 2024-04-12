@@ -1,74 +1,55 @@
-using System;
+import java.util.Scanner;
 
-namespace ChessMoves
-{
-    class Program
-    {
-        static Tuple<int, int> Moves(string hodi, int n, int m, int nlocal, int mlocal)
-        {
-            int nPos = n;
-            int mPos = m;
-
-            foreach (char hod in hodi)
-            {
-                switch (hod)
-                {
-                    case 'L':
-                        mPos--;
-                        break;
-                    case 'R':
-                        mPos++;
-                        break;
-                    case 'D':
-                        nPos++;
-                        break;
-                    case 'U':
-                        nPos--;
-                        break;
-                    default:
-                        Console.WriteLine(hod + " is undefined");
-                        return Tuple.Create(-123, 0);
+public class ChessMoves {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("n = ");
+        int n = scanner.nextInt();
+        System.out.println("m = ");
+        int m = scanner.nextInt();
+        System.out.println("moves = ");
+        String hodi = scanner.next();
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                int[] result = moves(hodi, i, j, n, m);
+                int nnew = result[0];
+                int mnew = result[1];
+                if (nnew > 0 && nnew <= n && mnew > 0 && mnew <= m) {
+                    System.out.println(i + " " + j);
+                    System.exit(0);
                 }
-
-                if ((mPos <= 0 || mPos > mlocal) || (nPos <= 0 || nPos > nlocal))
-                {
-                    return Tuple.Create(0, 0);
+                if (nnew == -123) {
+                    System.out.println("No");
+                    System.exit(0);
                 }
             }
-
-            return Tuple.Create(nPos, mPos);
         }
+        System.out.println("No");
+    }
 
-        static void Main(string[] args)
-        {
-            int n, m = 0;
-            Console.Write("n = ");
-            n = Convert.ToInt32(Console.ReadLine());
-            Console.Write("m = ");
-            m = Convert.ToInt32(Console.ReadLine());
-            Console.Write("moves = ");
-            string hodi = Console.ReadLine();
-
-            for (int i = 1; i <= n; i++)
-            {
-                for (int j = 1; j <= m; j++)
-                {
-                    Tuple<int, int> p = Moves(hodi, i, j, n, m);
-
-                    if ((p.Item1 > 0 && p.Item1 <= n) && (p.Item2 > 0 && p.Item2 <= m))
-                    {
-                        Console.WriteLine(i + " " + j);
-                        Environment.Exit(1);
-                    }
-
-                    if (p.Item1 == -123)
-                    {
-                        Environment.Exit(-123);
-                    }
-                }
+    public static int[] moves(String hodi, int n, int m, int nlocal, int mlocal) {
+        for (char hod : hodi.toCharArray()) {
+            switch (hod) {
+                case 'L':
+                    m -= 1;
+                    break;
+                case 'R':
+                    m += 1;
+                    break;
+                case 'D':
+                    n += 1;
+                    break;
+                case 'U':
+                    n -= 1;
+                    break;
+                default:
+                    System.out.println(hod + " is undefined");
+                    return new int[]{-123, 0};
             }
-
-            Console.WriteLine("No");
+            if (n <= 0 || n > nlocal || m <= 0 || m > mlocal) {
+                return new int[]{0, 0};
+            }
         }
+        return new int[]{n, m};
     }
 }
