@@ -1,47 +1,48 @@
 import java.util.Scanner
-fun moves(hodi: String, n: Int, m: Int): Pair<Int, Int> {
-    var nloc = n
-    var mloc = m
+
+fun moves(hodi: String, n: Int, m: Int, nlocal: Int, mlocal: Int): Pair<Int, Int> {
+    var n = n
+    var m = m
     for (hod in hodi) {
         when (hod) {
-            'L' -> mloc--
-            'R' -> mloc++
-            'D' -> nloc++
-            'U' -> nloc--
+            'L' -> m--
+            'R' -> m++
+            'D' -> n++
+            'U' -> n--
             else -> {
                 println("$hod is undefined")
                 return Pair(-123, 0)
             }
         }
+        if ((m <= 0 || m > mlocal) || (n <= 0 || n > nlocal)) {
+            return Pair(0, 0)
+        }
     }
-    return Pair(nloc, mloc)
+    return Pair(n, m)
 }
 
 fun main() {
     val scanner = Scanner(System.`in`)
-    println("n = ")
-    var n = 0
-    n = scanner.nextInt()
-    println("m = ")
-    var m = 0
-    m = scanner.nextInt()
-    println("moves: ")
-    var hodi = ""
-    hodi = scanner.nextLine()
+    print("n = ")
+    val n = scanner.nextInt()
+
+    print("m = ")
+    val m = scanner.nextInt()
+
+    print("moves = ")
+    val hodi = scanner.next()
 
     for (i in 1..n) {
         for (j in 1..m) {
-            val (nloc, mloc) = moves(hodi, i, j)
-            if (nloc in 1..n && mloc in 1..m) {
+            val p = moves(hodi, i, j, n, m)
+            if ((p.first > 0 && p.first <= n) && (p.second > 0 && p.second <= m)) {
                 println("$i $j")
                 return
             }
-
-            if (nloc == -123) {
-                println("No")
+            if (p.first == -123) {
                 return
             }
         }
     }
-    println("No")
+    println("NO")
 }
