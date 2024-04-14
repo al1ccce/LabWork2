@@ -1,27 +1,28 @@
 global _start
+; секция данных
 section .data  
-
-    n dq 15
-    m dq 4
- 
+    n dq 35
+    m dq 7
+; секция кода
 section .text
 _start:
-    push rbp
-    mov  rbp, rsp
-    mov rbx, [n]
-    mov rax, [n]
-    mov rcx, 0
-    whil:
-        mov [rbp-8], ah
-        add rax, [rbp-8]
-        mov ah, 0
-        div byte [m]
-        add rbx, rax
-        add rcx, 2
-        cmp al, 0
+    push rbp ; rbp в верх стека
+    mov  rbp, rsp ; rsp в rbp
+    mov rbx, [n] ; n в rbx
+    mov rax, [n] ; n в rax
+    mov rcx, 0 ; count = 0
+    whil: ; цикл while
+        mov [rbp-8], ah 
+        add rax, [rbp-8] 
+        mov ah, 0 ; остаток
+        div byte [m] ; деление m
+        add rbx, rax ; наращиваем drinkedBottles
+        add rcx, 2 ; наращиваем count
+        cmp al, 0 ; сравнение с 0
         jg whil
         
     sub rcx, 1
+    ; для вывода count поменять регистр rbx на rcx (mov rdi, rcx)
     mov rdi, rbx 
-    mov rax, 60
+    mov rax, 60 ; код  для системного вызова exit
     syscall
